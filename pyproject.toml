@@ -25,7 +25,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "Flask"
+  "Flask~=2.3.0"
 ]
 
 [project.urls]
@@ -39,9 +39,15 @@ path = "src/flask_testing_selenium/__about__.py"
 [tool.hatch.envs.default]
 dependencies = [
   "coverage[toml]>=6.5",
-  "pytest",
+  "pytest-flask~=1.2.0",
+  "pytest-selenium",
+  "pytest~=7.4.0",
+  # adding these because of bugs in pytest-selenium
+  "py", # https://github.com/pytest-dev/pytest-selenium/issues/313
+  "selenium~=4.9.0" # https://github.com/pytest-dev/pytest-selenium/issues/315
 ]
 [tool.hatch.envs.default.scripts]
+run = "flask --app flask_testing_selenium:create_app run"
 test = "pytest {args:tests}"
 test-cov = "coverage run -m pytest {args:tests}"
 cov-report = [
